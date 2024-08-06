@@ -1,8 +1,8 @@
-# oe-d10-basic
+# oe-d11-basic-refactor
 
 [![Build Status](https://drone.fpfis.eu/api/badges/token_vendor/token_project_id-reference/status.svg)](https://drone.fpfis.eu/token_vendor/token_project_id-reference)
 
-<p>Drupal 10 standard profile from OE Subsite</p>
+<p>Drupal 11 standard profile from OE Subsite</p>
 
 ## Updates in this project
 
@@ -26,10 +26,10 @@ and [Docker Compose](https://docs.docker.com/compose/install/)
 
 The project ships with default configuration in the `runner.yml.dist` file. This
 file is configured to run the website on the provided docker containers. If you
-are happy using those, you can skip directly to the 
-[installing the project](#14-installing-the-project) section. You can customize 
-the default configuration by copying `runner.yml.dist` to `runner.yml` and 
-changing for example the connection details for your database server and 
+are happy using those, you can skip directly to the
+[installing the project](#14-installing-the-project) section. You can customize
+the default configuration by copying `runner.yml.dist` to `runner.yml` and
+changing for example the connection details for your database server and
 selenium server.
 
 ### 1.3 Setting up the environment

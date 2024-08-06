@@ -20,9 +20,9 @@ workspace:
 # ==============================================================================
 matrix:
   include:
-    - PHP_VERSION: 8.1
+    - PHP_VERSION: 8.3
       CUSTOM_TOOLKIT: 0
-      TOOLKIT_BRANCH: 'release/9.x'
+      TOOLKIT_BRANCH: 'release/10.x'
       PROJECT_ID: 'digit-qa'
       PROJECT_VENDOR: 'digit'
       PROJECT_OWNER: 'ec-europa'
@@ -36,7 +36,7 @@ matrix:
 # ==============================================================================
 services:
   web:
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=7.4}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=8.3}-ci
     environment: &env
       - DOCUMENT_ROOT=/test/toolkit
       - DRUPAL_DATABASE_NAME=drupal
@@ -49,8 +49,8 @@ services:
       - DRUPAL_ACCOUNT_PASSWORD=admin
       - DRUPAL_SPARQL_HOSTNAME=sparql
       - DRUPAL_SPARQL_PORT=8890
-      - DRUPAL_BASE_URL=http://web:8080/web
-      - VIRTUAL_HOST=http://web:8080/web
+      - DRUPAL_BASE_URL=http://localhost:8080/
+      - VIRTUAL_HOST=http://localhost:8080/
       - CI_COMMIT_MESSAGE=[SKIP-D9C]
 
   mysql:
@@ -80,7 +80,7 @@ services:
 pipeline:
 
   prepare-template:
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=7.4}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=8.3}-ci
     secrets: [ github_api_token, composer_auth ]
     environment: *env
     commands:
@@ -96,7 +96,7 @@ pipeline:
       - /cache/${DRONE_REPO_NAME}:/cache
 
   install:
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=7.3}-dev
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=8.3}-dev
     secrets: [ github_api_token, gitlab_api_token, composer_auth, gitlab_docker_user, gitlab_docker_password ]
     commands:
       - /scripts/run.sh echo "Container ready"
@@ -107,7 +107,7 @@ pipeline:
       - /cache/${DRONE_REPO_NAME}:/cache
 
   custom-toolkit:
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=7.4}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=8.3}-ci
     secrets: [ github_api_token, gitlab_api_token, composer_auth, gitlab_docker_user, gitlab_docker_password ]
     commands:
       - /scripts/run.sh echo "Container ready"
@@ -122,7 +122,7 @@ pipeline:
         CUSTOM_TOOLKIT: 1
 
   install-clean:
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=7.4}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=8.3}-ci
     secrets: [ qa_api_basic_auth, github_api_token, gitlab_api_token, composer_auth, asda_user, asda_password, nextcloud_user, nextcloud_pass ]
     environment: *env
     commands:
@@ -134,7 +134,7 @@ pipeline:
 
   toolkit-checks:
     group: qa
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=7.4}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=8.3}-ci
     secrets: [ qa_api_basic_auth, github_api_token, gitlab_api_token, composer_auth, asda_user, asda_password, nextcloud_user, nextcloud_pass ]
     environment: *env
     commands:
@@ -148,7 +148,7 @@ pipeline:
 
   toolkit-tests:
     group: qa
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=7.4}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=8.3}-ci
     secrets: [ qa_api_basic_auth, github_api_token, gitlab_api_token, composer_auth, asda_user, asda_password, nextcloud_user, nextcloud_pass ]
     environment: *env
     commands:

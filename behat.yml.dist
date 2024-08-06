@@ -13,7 +13,7 @@ default:
         tags: "${behat.tags}"
   extensions:
     Drupal\MinkExtension:
-      goutte: ~
+      browserkit_http: ~
       ajax_timeout: 10
       browser_name: '${selenium.browser}'
       javascript_session: 'selenium2'
