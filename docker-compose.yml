@@ -1,14 +1,14 @@
-version: '2'
 services:
   web:
-    image: fpfis/httpd-php:8.1-dev
+    image: fpfis/httpd-php:8.3-dev
     working_dir: ${PWD}
     ports:
       - "8080:8080"
     volumes:
-      - ${PWD}:${PWD}      
+      - ${PWD}:${PWD}
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt
     environment:
-      DOCUMENT_ROOT: ${PWD}/web      
+      DOCUMENT_ROOT: ${PWD}/web
       NEXTCLOUD_USER:
       NEXTCLOUD_PASS:
       GITHUB_API_TOKEN:
@@ -22,9 +22,11 @@ services:
       PHP_IDE_CONFIG: "serverName=Docker"
     env_file:
       - .env
+    dns: 8.8.8.8
 
   mysql:
     image: percona/percona-server:8.0
+    command: --innodb-log-file_size=2G --max-allowed-packet=1G --innodb-buffer-pool-size=512M --wait-timeout=31536000
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
