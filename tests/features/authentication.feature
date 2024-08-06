@@ -53,7 +53,7 @@ Feature: User authentication
       | user |
 
   Scenario Outline: Test access to admin pages
-    Given I am logged in as a user with the "access administration pages" permission
+    Given I am logged in as a user with the "administrator" role
     When I go to "<path>"
     Then I should get a 200 HTTP response
 

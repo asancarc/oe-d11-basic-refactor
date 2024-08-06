@@ -10,9 +10,19 @@ show_menu() {
     echo "Select an option:"
     echo
     echo "1. TOOLKIT - Install clean (composer install, build-dev, install-clean, drush uli)"
-    echo "18. Exit"
-    echo
-    echo "(In all executions from drush and toolkit, this script at finally disable monolog module, because if the site doesn't have any home page, uli doesn't work properly)"
+    echo "2. BEHAT - Execute all tests (composer install, build-dev, install-clean, behat --profile=clean --strict)"
+    echo "3. BEHAT - List all steps available (include result in new file called behat-steps.txt)."
+    echo "4. TOOLKIT - Run PHP code sniffer"
+    echo "5. TOOLKIT - Run PHPMD"
+    echo "6. TOOLKIT - Run PHP code autofixing"
+    echo "7. DRUPAL CONTRIB MODULES - Check updates available."
+    echo "8. COMPOSER - Update composer.lock file."
+    echo "9. COMPOSER - Validate composer.lock file."
+    echo "10. DRUSH GENERATE - Show available commands."
+    echo "11. DRUSH GENERATE - generate new custom module."
+    echo "12. MSQL - Open terminal."
+    echo "13. Restore vendor folder (remove vendor folder, composer install)"
+    echo "14. Exit"
     echo
 }
 
@@ -25,52 +35,62 @@ action1() {
 }
 
 action2() {
+    echo "Execute BEHAT tests"
+    red=`tput setaf 1`
+    reset=`tput sgr0`
 
+    read -p "Be carefull, if you press enter button, start this process, but ${red}First of all execute install-clean command${reset}" var
+    if [ ${#var} -eq 0 ]; then
+        composer install
+        vendor/bin/run toolkit:build-dev
+        vendor/bin/run toolkit:install-clean
+        vendor/bin/behat --profile=clean --strict
+    fi
 }
 
 action3() {
+    vendor/bin/behat -dl | tee behat-steps.txt
 }
 
 action4() {
+    vendor/bin/run toolkit:test-phpcs
 }
 
 action5() {
+    vendor/bin/run toolkit:test-phpmd
 }
 
 action6() {
+    vendor/bin/run toolkit:run-phpcbf
 }
 
 action7() {
+    composer outdated "drupal/*"
 }
 
 action8() {
+    composer update --lock
 }
 
 action9() {
+    composer validate
 }
 
 action10() {
+    drush generate
 }
 
 action11() {
+    drush generate module
 }
 
 action12() {
+    drush sql:cli
 }
 
 action13() {
-}
-
-action14() {
-}
-
-action15() {
-}
-
-action16() {
-}
-
-action17() {
+    rm -rf vendor
+    composer install
 }
 
 # Main script loop
@@ -123,18 +143,6 @@ while true; do
             action13
             ;;
         14)
-            action14
-            ;;
-        15)
-            action15
-            ;;
-        16)
-            action16
-            ;;
-        17)
-            action17
-            ;;
-        18)
             echo "Exiting the program"
             break
             ;;
