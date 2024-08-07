@@ -17,7 +17,7 @@ services:
       QA_WEBSITE_URL:ENV: "development"
       PHP_MEMORY_LIMIT: "512M"
       # XDEBUG CONFIGURATION.
-      XDEBUG_CONFIG: idekey=PHPSTORM client_port=9003 client_host=172.17.0.1 log=/tmp/xdebug.log
+      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9003 remote_enable=1
       XDEBUG_MODE: debug
       PHP_IDE_CONFIG: "serverName=Docker"
       DRUPAL_BASE_URL: "http://localhost:8080"
